@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace NimbusCMS\Seo\Tests;
 
-use Nimbus\Content\FieldTypeRegistry;
+use Nimbus\Plugin\PluginCapabilities;
 use Nimbus\Plugin\PluginDiagnostic;
 use Nimbus\Plugin\PluginLoader;
 use Nimbus\Site\HeadContributorRegistry;
@@ -89,7 +89,7 @@ final class PackageIntegrationTest extends TestCase
     {
         $head        = new HeadContributorRegistry();
         $loader      = new PluginLoader($this->installedAs());
-        $diagnostics = $loader->load(new FieldTypeRegistry(), $head);
+        $diagnostics = $loader->load(new PluginCapabilities(head: $head));
 
         self::assertSame([], $diagnostics, 'a correctly installed package must load cleanly');
         self::assertSame([SeoPlugin::ID => $this->manifest()['name']], $loader->registered());
@@ -106,7 +106,7 @@ final class PackageIntegrationTest extends TestCase
     {
         $head        = new HeadContributorRegistry();
         $loader      = new PluginLoader($this->installedAs(), [SeoPlugin::ID => false]);
-        $diagnostics = $loader->load(new FieldTypeRegistry(), $head);
+        $diagnostics = $loader->load(new PluginCapabilities(head: $head));
 
         self::assertSame([], $loader->registered());
         self::assertSame('', $head->render($this->home()), 'a disabled plugin contributes nothing');
