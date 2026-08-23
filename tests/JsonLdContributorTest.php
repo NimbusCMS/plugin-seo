@@ -24,6 +24,7 @@ final class JsonLdContributorTest extends TestCase
             'https://example.test/posts/hello',
             'Hello World',
             'My Site',
+            'AAAAAAAAAAAAAAAAAAAAAA==',
             ['title' => 'Hello World', 'published_at' => '2026-08-01T09:00:00+00:00'],
         );
 
@@ -39,7 +40,7 @@ final class JsonLdContributorTest extends TestCase
 
     public function test_the_home_page_is_a_website(): void
     {
-        $html = $this->contributor->head(new PageContext('home', 'https://example.test/', 'Home', 'My Site'));
+        $html = $this->contributor->head(new PageContext('home', 'https://example.test/', 'Home', 'My Site', 'AAAAAAAAAAAAAAAAAAAAAA=='));
 
         self::assertStringContainsString('"@type":"WebSite"', $html);
         self::assertStringContainsString('"name":"My Site"', $html);
@@ -48,7 +49,7 @@ final class JsonLdContributorTest extends TestCase
 
     public function test_a_collection_page_is_a_collection_page(): void
     {
-        $html = $this->contributor->head(new PageContext('collection', 'https://example.test/posts', 'Posts', 'My Site'));
+        $html = $this->contributor->head(new PageContext('collection', 'https://example.test/posts', 'Posts', 'My Site', 'AAAAAAAAAAAAAAAAAAAAAA=='));
 
         self::assertStringContainsString('"@type":"CollectionPage"', $html);
         self::assertStringContainsString('"name":"Posts"', $html);
@@ -56,7 +57,7 @@ final class JsonLdContributorTest extends TestCase
 
     public function test_a_missing_publish_time_is_omitted(): void
     {
-        $page = new PageContext('entry', 'https://example.test/posts/x', 'X', 'My Site', ['title' => 'X']);
+        $page = new PageContext('entry', 'https://example.test/posts/x', 'X', 'My Site', 'AAAAAAAAAAAAAAAAAAAAAA==', ['title' => 'X']);
 
         self::assertStringNotContainsString('datePublished', $this->contributor->head($page));
     }
@@ -68,6 +69,7 @@ final class JsonLdContributorTest extends TestCase
             'https://example.test/x',
             'Pwned</script><script>alert(1)</script>',
             'My Site',
+            'AAAAAAAAAAAAAAAAAAAAAA==',
             ['title' => 'x'],
         );
 
@@ -83,6 +85,6 @@ final class JsonLdContributorTest extends TestCase
 
     public function test_an_unknown_page_kind_contributes_nothing(): void
     {
-        self::assertSame('', $this->contributor->head(new PageContext('mystery', 'https://example.test/', 'X', 'S')));
+        self::assertSame('', $this->contributor->head(new PageContext('mystery', 'https://example.test/', 'X', 'S', 'AAAAAAAAAAAAAAAAAAAAAA==')));
     }
 }

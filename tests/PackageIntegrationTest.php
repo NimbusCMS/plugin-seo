@@ -65,7 +65,7 @@ final class PackageIntegrationTest extends TestCase
 
     private function home(): PageContext
     {
-        return new PageContext('home', 'https://example.test/', 'Home', 'My Site');
+        return new PageContext('home', 'https://example.test/', 'Home', 'My Site', 'AAAAAAAAAAAAAAAAAAAAAA==');
     }
 
     // ------------------------------------------------------- the manifest
