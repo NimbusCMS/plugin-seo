@@ -20,9 +20,19 @@ block, built entirely from the page data Nimbus hands the plugin:
 | the home page | `WebSite` |
 | a collection index | `CollectionPage` |
 
+Every public page also gains a `<meta name="generator" content="NimbusCMS">` —
+the standard CMS-identification tag. It is deliberately **version-less** (a version
+would be fingerprinting surface for no benefit) and carries no page data, so it is
+neither an escaping nor a fingerprinting concern.
+
 No configuration. No database access — the plugin only ever sees the prepared
 view-model of the page being rendered. Output is encoded so a value containing
 `</script>` can never break out of the script element.
+
+> Advertising the CMS's agent/MCP control surface is **not** done in the page
+> `<head>`: no agent convention consumes head-level MCP hints today, and the
+> endpoint is a core fact. That belongs in a core-served `/llms.txt`, alongside
+> `robots.txt`.
 
 ## Install
 
